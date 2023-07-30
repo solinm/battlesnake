@@ -13,14 +13,14 @@ def get_info() -> dict:
 def choose_move(data: dict) -> str:
     my_snake = data["you"]
     my_head = my_snake["head"]
-    my_body = {segment["x"]: segment["y"] for segment in my_snake["body"]}  # Convert to dictionary for constant-time lookup
+    my_body = {segment["x"]: segment["y"] for segment in my_snake["body"]}  
     board = data['board']
     board_height = board['height']
     board_width = board['width']
     max_height = board_height - 1
     max_width = board_width - 1
 
-    possible_moves = {"up", "down", "left", "right"}  # Use set for faster lookup
+    possible_moves = {"up", "down", "left", "right"} 
 
     # Step 0: Don't allow your Battlesnake to move back on its own neck.
     possible_moves = _avoid_my_neck(my_body, possible_moves)
@@ -35,9 +35,7 @@ def choose_move(data: dict) -> str:
     other_snakes = {snake["id"]: {segment["x"]: segment["y"] for segment in snake["body"]} for snake in data["board"]["snakes"] if snake["id"] != my_snake["id"]}
     possible_moves = _avoid_other_snakes_collision(my_head, other_snakes, possible_moves)
 
-    # Step 4: Find food and choose the best move (optional, use A* for better performance)
-
-    # Choose a random direction from the remaining possible_moves to move in
+    # Step 4: Find food and choose the best move
     if possible_moves:
         move = random.choice(list(possible_moves))
     else:
@@ -46,8 +44,8 @@ def choose_move(data: dict) -> str:
     return move
 
 def _avoid_my_neck(my_body: dict, possible_moves: List[str]) -> List[str]:
-    my_head = my_body[0]  # The first body coordinate is always the head
-    my_neck = my_body[1]  # The segment of the body right after the head is the 'neck'
+    my_head = my_body[0] 
+    my_neck = my_body[1]
 
     if my_neck["x"] < my_head["x"]:  # my neck is left of my head
         possible_moves.discard("left")
