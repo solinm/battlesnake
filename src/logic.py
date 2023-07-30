@@ -97,5 +97,4 @@ def _avoid_other_snakes_collision(my_head, other_snakes, possible_moves):
             if new_head in snake_body.values():
                 possible_moves.discard(move)
                 break
-
     return possible_moves
